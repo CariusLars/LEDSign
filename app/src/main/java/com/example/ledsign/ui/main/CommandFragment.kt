@@ -21,9 +21,12 @@ class CommandFragment : Fragment(){
     private lateinit var brightnessValue: TextView
     private lateinit var scrollingTextEditable: EditText
     private lateinit var scrollingTextButton: Button
+    private lateinit var staticTextEditable: EditText
+    private lateinit var staticTextButton: Button
 
     //Initialize states
     private var stateScrollingText = false
+    private var stateStaticText = false
     //override fun onCreate(savedInstanceState: Bundle?) {
     //    super.onCreate(savedInstanceState)
     //}
@@ -67,6 +70,24 @@ class CommandFragment : Fragment(){
                     stateScrollingText = false
                     scrollingTextButton.text = getString(R.string.button_scrolling_text)
                     scrollingTextEditable.setText("")
+                    //Todo: Send UDP message
+                }
+            }
+        }
+
+        staticTextEditable = root.findViewById(R.id.staticEditText)
+        staticTextButton = root.findViewById(R.id.staticTextButton)
+        staticTextButton.setOnClickListener { _ ->
+            when(stateStaticText){
+                false -> {
+                    stateStaticText = true
+                    staticTextButton.text = getString(R.string.button_static_text_cancel)
+                    //Todo: Send UDP message
+                }
+                true -> {
+                    stateStaticText = false
+                    staticTextButton.text = getString(R.string.button_static_text)
+                    staticTextEditable.setText("")
                     //Todo: Send UDP message
                 }
             }

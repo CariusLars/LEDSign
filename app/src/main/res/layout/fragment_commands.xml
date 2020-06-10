@@ -74,5 +74,35 @@
             android:layout_weight="0.7"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/staticTextHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/heading_static_text"
+        android:textColor="@android:color/white"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2" >
+
+        <EditText
+            android:id="@+id/staticEditText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:layout_weight="1.3" />
+        <Button
+            android:id="@+id/staticTextButton"
+            android:text="@string/button_static_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"/>
+    </LinearLayout>
+
 
 </LinearLayout>

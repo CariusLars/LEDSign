@@ -11,6 +11,9 @@
     <string name="heading_scrolling_text">Scrolling Text</string>
     <string name="button_scrolling_text">Set Text</string>
     <string name="button_scrolling_text_cancel">Cancel</string>
+    <string name="heading_static_text">Static Text</string>
+    <string name="button_static_text">Set Text</string>
+    <string name="button_static_text_cancel">Cancel</string>
 
 
 </resources>
