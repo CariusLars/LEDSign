@@ -17,6 +17,7 @@ import com.example.ledsign.R
  */
 class CommandFragment : Fragment(){
 
+    // Initialize UI elements
     private lateinit var brightnessBar: SeekBar
     private lateinit var brightnessValue: TextView
     private lateinit var scrollingTextEditable: EditText
@@ -26,11 +27,21 @@ class CommandFragment : Fragment(){
     private lateinit var buttonScoreboardStart: Button
     private lateinit var buttonScoreboardA: Button
     private lateinit var buttonScoreboardB: Button
+    private lateinit var buttonStrobo: Button
+    private lateinit var buttonColorStrobo: Button
+    private lateinit var buttonRainbow: Button
+    private lateinit var buttonStaticColor: Button
+    private lateinit var buttonReset: Button
 
     //Initialize states
     private var stateScrollingText = false
     private var stateStaticText = false
     private var stateScoreboard = false
+    private var stateStrobo = false
+    private var stateColorStrobo = false
+    private var stateRainbow = false
+    private var stateStaticColor = false
+
     //override fun onCreate(savedInstanceState: Bundle?) {
     //    super.onCreate(savedInstanceState)
     //}
@@ -102,12 +113,12 @@ class CommandFragment : Fragment(){
             when (stateScoreboard){
                 false -> {
                     stateScoreboard = true
-                    buttonScoreboardStart.text = getString(R.string.button_scoreboard_start)
+                    buttonScoreboardStart.text = getString(R.string.button_scoreboard_start_cancel)
                     //Todo: Send UDP message
                 }
                 true -> {
                     stateScoreboard = false
-                    buttonScoreboardStart.text = getString(R.string.button_scoreboard_start_cancel)
+                    buttonScoreboardStart.text = getString(R.string.button_scoreboard_start)
                     //Todo: Send UDP message
                 }
             }
@@ -121,6 +132,74 @@ class CommandFragment : Fragment(){
             //Todo: Send UDP message
         }
 
+        buttonStrobo = root.findViewById(R.id.stroboButton)
+        buttonStrobo.setOnClickListener { _ ->
+            when(stateStrobo){
+                false -> {
+                    stateStrobo = true
+                    buttonStrobo.text = getString(R.string.button_strobo_cancel)
+                    // Todo: Send UDP message
+                }
+                true -> {
+                    stateStrobo = false
+                    buttonStrobo.text = getString(R.string.button_strobo)
+                    // Todo: Send UDP message
+                }
+            }
+        }
+
+        buttonColorStrobo = root.findViewById(R.id.colorStroboButton)
+        buttonColorStrobo.setOnClickListener { _ ->
+            when(stateColorStrobo){
+                false -> {
+                    stateColorStrobo = true
+                    buttonColorStrobo.text = getString(R.string.button_color_strobo_cancel)
+                    // Todo: Send UDP message
+                }
+                true -> {
+                    stateColorStrobo = false
+                    buttonColorStrobo.text = getString(R.string.button_color_strobo)
+                    // Todo: Send UDP message
+                }
+            }
+        }
+
+        buttonRainbow = root.findViewById(R.id.rainbowButton)
+        buttonRainbow.setOnClickListener { _ ->
+            when(stateRainbow){
+                false -> {
+                    stateRainbow = true
+                    buttonRainbow.text = getString(R.string.button_rainbow_cancel)
+                    // Todo: Send UDP message
+                }
+                true -> {
+                    stateRainbow = false
+                    buttonRainbow.text = getString(R.string.button_rainbow)
+                    // Todo: Send UDP message
+                }
+            }
+        }
+
+        buttonStaticColor = root.findViewById(R.id.staticColorButton)
+        buttonStaticColor.setOnClickListener { _ ->
+            when(stateStaticColor){
+                false -> {
+                    stateStaticColor = true
+                    buttonStaticColor.text = getString(R.string.button_static_color_cancel)
+                    // Todo: Send UDP message
+                }
+                true -> {
+                    stateStaticColor = false
+                    buttonStaticColor.text = getString(R.string.button_static_color)
+                    // Todo: Send UDP message
+                }
+            }
+        }
+
+        buttonReset = root.findViewById(R.id.resetButton)
+        buttonReset.setOnClickListener { _ ->
+            //Todo: Send UDP message
+        }
         return root
             }
 

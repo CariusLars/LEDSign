@@ -19,6 +19,17 @@
     <string name="button_scoreboard_start_cancel">Cancel</string>
     <string name="button_scoreboard_a">Point Team A</string>
     <string name="button_scoreboard_b">Point Team B</string>
+    <string name="heading_party">Party Section</string>
+    <string name="button_strobo">Stroboscope</string>
+    <string name="button_strobo_cancel">Cancel</string>
+    <string name="button_color_strobo">Color Stroboscope</string>
+    <string name="button_color_strobo_cancel">Cancel</string>
+    <string name="button_rainbow">Rainbow</string>
+    <string name="button_rainbow_cancel">Cancel</string>
+    <string name="button_static_color">Static Color</string>
+    <string name="button_static_color_cancel">Cancel</string>
+    <string name="heading_reset">Reset</string>
+    <string name="button_reset">Reset Sign</string>
 
 
 </resources>
