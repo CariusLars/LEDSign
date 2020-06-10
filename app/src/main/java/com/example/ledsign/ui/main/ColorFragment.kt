@@ -73,6 +73,7 @@ class ColorFragment : Fragment(), OnColorChangedListener {
     }
 
     override fun onColorChanged(color: Int) {
+        //Todo: add UDP send here
         text.text = color.toString()
     }
 

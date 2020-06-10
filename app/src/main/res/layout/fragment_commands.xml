@@ -11,21 +11,28 @@
         android:layout_height="wrap_content"
         android:weightSum="2" >
 
-    <Button
-        android:id="@+id/buttontest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Test"
-        android:layout_weight="1" />
-
     <TextView
-        android:id="@+id/textViewtest"
+        android:id="@+id/brightnessHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Text Color"
+        android:text="Brightness: "
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:layout_weight="1" />
+    <TextView
+        android:id="@+id/brightnessValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slide to change"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:layout_weight="1" />
     </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/brightnessBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="255"/>
 
 </LinearLayout>
