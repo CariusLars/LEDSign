@@ -20,13 +20,17 @@ class CommandFragment : Fragment(){
     private lateinit var brightnessBar: SeekBar
     private lateinit var brightnessValue: TextView
     private lateinit var scrollingTextEditable: EditText
-    private lateinit var scrollingTextButton: Button
+    private lateinit var buttonScrollingText: Button
     private lateinit var staticTextEditable: EditText
-    private lateinit var staticTextButton: Button
+    private lateinit var buttonStaticText: Button
+    private lateinit var buttonScoreboardStart: Button
+    private lateinit var buttonScoreboardA: Button
+    private lateinit var buttonScoreboardB: Button
 
     //Initialize states
     private var stateScrollingText = false
     private var stateStaticText = false
+    private var stateScoreboard = false
     //override fun onCreate(savedInstanceState: Bundle?) {
     //    super.onCreate(savedInstanceState)
     //}
@@ -58,17 +62,17 @@ class CommandFragment : Fragment(){
             }
         })
         scrollingTextEditable = root.findViewById(R.id.scrollingEditText)
-        scrollingTextButton = root.findViewById(R.id.scrollingTextButton)
-        scrollingTextButton.setOnClickListener { _ ->
+        buttonScrollingText = root.findViewById(R.id.scrollingTextButton)
+        buttonScrollingText.setOnClickListener { _ ->
             when(stateScrollingText){
                 false -> {
                     stateScrollingText = true
-                    scrollingTextButton.text = getString(R.string.button_scrolling_text_cancel)
+                    buttonScrollingText.text = getString(R.string.button_scrolling_text_cancel)
                     //Todo: Send UDP message
                 }
                 true -> {
                     stateScrollingText = false
-                    scrollingTextButton.text = getString(R.string.button_scrolling_text)
+                    buttonScrollingText.text = getString(R.string.button_scrolling_text)
                     scrollingTextEditable.setText("")
                     //Todo: Send UDP message
                 }
@@ -76,24 +80,46 @@ class CommandFragment : Fragment(){
         }
 
         staticTextEditable = root.findViewById(R.id.staticEditText)
-        staticTextButton = root.findViewById(R.id.staticTextButton)
-        staticTextButton.setOnClickListener { _ ->
+        buttonStaticText = root.findViewById(R.id.staticTextButton)
+        buttonStaticText.setOnClickListener { _ ->
             when(stateStaticText){
                 false -> {
                     stateStaticText = true
-                    staticTextButton.text = getString(R.string.button_static_text_cancel)
+                    buttonStaticText.text = getString(R.string.button_static_text_cancel)
                     //Todo: Send UDP message
                 }
                 true -> {
                     stateStaticText = false
-                    staticTextButton.text = getString(R.string.button_static_text)
+                    buttonStaticText.text = getString(R.string.button_static_text)
                     staticTextEditable.setText("")
                     //Todo: Send UDP message
                 }
             }
         }
 
-
+        buttonScoreboardStart = root.findViewById(R.id.scoreboardStartButton)
+        buttonScoreboardStart.setOnClickListener { _ ->
+            when (stateScoreboard){
+                false -> {
+                    stateScoreboard = true
+                    buttonScoreboardStart.text = getString(R.string.button_scoreboard_start)
+                    //Todo: Send UDP message
+                }
+                true -> {
+                    stateScoreboard = false
+                    buttonScoreboardStart.text = getString(R.string.button_scoreboard_start_cancel)
+                    //Todo: Send UDP message
+                }
+            }
+        }
+        buttonScoreboardA = root.findViewById(R.id.scoreboardAButton)
+        buttonScoreboardA.setOnClickListener { _ ->
+            //Todo: Send UDP message
+        }
+        buttonScoreboardB = root.findViewById(R.id.scoreboardBButton)
+        buttonScoreboardB.setOnClickListener { _ ->
+            //Todo: Send UDP message
+        }
 
         return root
             }
