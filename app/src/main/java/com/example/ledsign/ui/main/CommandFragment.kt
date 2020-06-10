@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -17,6 +19,11 @@ class CommandFragment : Fragment(){
 
     private lateinit var brightnessBar: SeekBar
     private lateinit var brightnessValue: TextView
+    private lateinit var scrollingTextEditable: EditText
+    private lateinit var scrollingTextButton: Button
+
+    //Initialize states
+    private var stateScrollingText = false
     //override fun onCreate(savedInstanceState: Bundle?) {
     //    super.onCreate(savedInstanceState)
     //}
@@ -44,8 +51,27 @@ class CommandFragment : Fragment(){
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 // Todo: Send UDP message
+                //current value: seekBar.progress
             }
         })
+        scrollingTextEditable = root.findViewById(R.id.scrollingEditText)
+        scrollingTextButton = root.findViewById(R.id.scrollingTextButton)
+        scrollingTextButton.setOnClickListener { _ ->
+            when(stateScrollingText){
+                false -> {
+                    stateScrollingText = true
+                    scrollingTextButton.text = getString(R.string.button_scrolling_text_cancel)
+                    //Todo: Send UDP message
+                }
+                true -> {
+                    stateScrollingText = false
+                    scrollingTextButton.text = getString(R.string.button_scrolling_text)
+                    scrollingTextEditable.setText("")
+                    //Todo: Send UDP message
+                }
+            }
+        }
+
 
 
         return root

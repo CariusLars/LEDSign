@@ -1,5 +1,16 @@
 <resources>
+    <!-- General strings -->
     <string name="app_name">LEDSign</string>
     <string name="tab_text_1">Commands</string>
     <string name="tab_text_2">Color</string>
+
+    <!-- Commands tab strings -->
+    <string name="heading_brightness">Brightness</string>
+    <string name="text_value_brightness_title">Current value: </string>
+    <string name="text_value_brightness_default">Slide to change</string>
+    <string name="heading_scrolling_text">Scrolling Text</string>
+    <string name="button_scrolling_text">Set Text</string>
+    <string name="button_scrolling_text_cancel">Cancel</string>
+
+
 </resources>
