@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import com.example.ledsign.R
 import com.larswerkman.holocolorpicker.ColorPicker
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener
-import com.larswerkman.holocolorpicker.OpacityBar
+//import com.larswerkman.holocolorpicker.OpacityBar
 import com.larswerkman.holocolorpicker.SVBar
 
 
 /**
- * A placeholder fragment containing a simple view.
+ * Color picking fragment
  */
 class ColorFragment : Fragment(), OnColorChangedListener {
 
@@ -25,15 +25,15 @@ class ColorFragment : Fragment(), OnColorChangedListener {
     private lateinit var button: Button
     private lateinit var text: TextView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    //override fun onCreate(savedInstanceState: Bundle?) {
+    //    super.onCreate(savedInstanceState)
+    //}
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_main, container, false)
+        val root = inflater.inflate(R.layout.fragment_color, container, false)
         picker = root.findViewById(R.id.picker)
         svBar = root.findViewById(R.id.svbar)
         //opacityBar = root.findViewById(R.id.opacitybar)
