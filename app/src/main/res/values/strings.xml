@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LEDSign</string>
+    <string name="tab_text_1">Commands</string>
+    <string name="tab_text_2">Color</string>
+</resources>
