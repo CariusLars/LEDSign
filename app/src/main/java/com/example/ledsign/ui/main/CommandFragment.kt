@@ -1,6 +1,9 @@
 package com.example.ledsign.ui.main
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +12,15 @@ import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.example.ledsign.ColorInterface
+import com.example.ledsign.MainActivity
 import com.example.ledsign.R
+import com.example.ledsign.UdpClient
+import java.io.IOException
+import java.net.DatagramPacket
+import java.net.DatagramSocket
+import java.net.InetAddress
+import java.net.SocketException
 
 
 /**
@@ -42,16 +53,54 @@ class CommandFragment : Fragment(){
     private var stateRainbow = false
     private var stateStaticColor = false
 
+    private var brightness = 255
+
+    //UDP Client
+    private lateinit var client: UdpClient
+
     //override fun onCreate(savedInstanceState: Bundle?) {
     //    super.onCreate(savedInstanceState)
     //}
+    /*fun sendUDPMessage(message: String){
+        val buf: ByteArray = (message).toByteArray()
+        val packet = DatagramPacket(buf, buf.size,MainActivity().serverAddr, MainActivity().port)
+        try {MainActivity().udpSocket.send(packet)
+        } catch (e: SocketException) {
+            Log.e("Udp:", "Socket Error:", e);
+        } catch (e: IOException) {
+            Log.e("Udp Send:", "IO Error:", e);
+        }
+    }*/
+    private var colorHandler: ColorInterface? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is ColorInterface) {
+            colorHandler = context as ColorInterface
+        } else {
+            throw RuntimeException(
+                "$context must implement YourActivityInterface"
+            )
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        super.onDetach()
+        colorHandler = null
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_commands, container, false)
-        
+
+        //Initialize UDP client
+        client = UdpClient()
+
+
         //Initialize UI objects
         brightnessValue = root.findViewById(R.id.brightnessValue)
         brightnessBar = root.findViewById(R.id.brightnessBar)
@@ -59,6 +108,7 @@ class CommandFragment : Fragment(){
 
             override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
                 // Display the current progress of SeekBar
+                brightness = i
                 val brightnessPercentage = (i/2.55).toInt()
                 brightnessValue.text = "$brightnessPercentage %"
             }
@@ -68,7 +118,6 @@ class CommandFragment : Fragment(){
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // Todo: Send UDP message
                 //current value: seekBar.progress
             }
         })
@@ -79,13 +128,19 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateScrollingText = true
                     buttonScrollingText.text = getString(R.string.button_scrolling_text_cancel)
-                    //Todo: Send UDP message
+
+                    //Send UDP message
+                    client.Message = "4:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + scrollingTextEditable.text
+                    client.sendUdp()
                 }
                 true -> {
                     stateScrollingText = false
                     buttonScrollingText.text = getString(R.string.button_scrolling_text)
                     scrollingTextEditable.setText("")
-                    //Todo: Send UDP message
+
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + scrollingTextEditable.text
+                    client.sendUdp()
                 }
             }
         }
@@ -97,13 +152,17 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateStaticText = true
                     buttonStaticText.text = getString(R.string.button_static_text_cancel)
-                    //Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "1:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + staticTextEditable.text
+                    client.sendUdp()
                 }
                 true -> {
                     stateStaticText = false
                     buttonStaticText.text = getString(R.string.button_static_text)
                     staticTextEditable.setText("")
-                    //Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + staticTextEditable.text
+                    client.sendUdp()
                 }
             }
         }
@@ -114,22 +173,30 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateScoreboard = true
                     buttonScoreboardStart.text = getString(R.string.button_scoreboard_start_cancel)
-                    //Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "7:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
                 true -> {
                     stateScoreboard = false
                     buttonScoreboardStart.text = getString(R.string.button_scoreboard_start)
-                    //Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
             }
         }
         buttonScoreboardA = root.findViewById(R.id.scoreboardAButton)
         buttonScoreboardA.setOnClickListener { _ ->
-            //Todo: Send UDP message
+            //Send UDP message
+            client.Message = "7:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + "A+"
+            client.sendUdp()
         }
         buttonScoreboardB = root.findViewById(R.id.scoreboardBButton)
         buttonScoreboardB.setOnClickListener { _ ->
-            //Todo: Send UDP message
+            //Send UDP message
+            client.Message = "7:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + "B+"
+            client.sendUdp()
         }
 
         buttonStrobo = root.findViewById(R.id.stroboButton)
@@ -138,12 +205,16 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateStrobo = true
                     buttonStrobo.text = getString(R.string.button_strobo_cancel)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "6:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
                 true -> {
                     stateStrobo = false
                     buttonStrobo.text = getString(R.string.button_strobo)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
             }
         }
@@ -154,12 +225,16 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateColorStrobo = true
                     buttonColorStrobo.text = getString(R.string.button_color_strobo_cancel)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "3:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
                 true -> {
                     stateColorStrobo = false
                     buttonColorStrobo.text = getString(R.string.button_color_strobo)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
             }
         }
@@ -170,12 +245,16 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateRainbow = true
                     buttonRainbow.text = getString(R.string.button_rainbow_cancel)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "5:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
                 true -> {
                     stateRainbow = false
                     buttonRainbow.text = getString(R.string.button_rainbow)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
             }
         }
@@ -186,19 +265,25 @@ class CommandFragment : Fragment(){
                 false -> {
                     stateStaticColor = true
                     buttonStaticColor.text = getString(R.string.button_static_color_cancel)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "2:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
                 true -> {
                     stateStaticColor = false
                     buttonStaticColor.text = getString(R.string.button_static_color)
-                    // Todo: Send UDP message
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
                 }
             }
         }
 
         buttonReset = root.findViewById(R.id.resetButton)
         buttonReset.setOnClickListener { _ ->
-            //Todo: Send UDP message
+            //Send UDP message
+            client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+            client.sendUdp()
         }
         return root
             }

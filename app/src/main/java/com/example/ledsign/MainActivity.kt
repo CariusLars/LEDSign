@@ -9,8 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.example.ledsign.ui.main.SectionsPagerAdapter
+import java.net.DatagramSocket
+import java.net.InetAddress
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ColorInterface {
+
+    private var currentColor: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,5 +25,13 @@ class MainActivity : AppCompatActivity() {
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
+    }
+
+    override fun setColor(color: Int) {
+        currentColor = color
+    }
+
+    override fun getColor(): Int {
+        return currentColor
     }
 }
