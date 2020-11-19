@@ -32,5 +32,8 @@
     <string name="button_reset">Reset Sign</string>
     <string name="button_sound_control">Sound Control</string>
     <string name="button_sound_control_cancel">Cancel</string>
+    <string name="heading_mic_gain">Mic Gain</string>
+    <string name="text_value_mic_gain_title">Current value: </string>
+    <string name="text_value_mic_gain_default">Slide to change</string>
 
 </resources>

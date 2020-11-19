@@ -44,6 +44,8 @@ class CommandFragment : Fragment(){
     private lateinit var buttonStaticColor: Button
     private lateinit var buttonReset: Button
     private lateinit var buttonSoundControl: Button
+    private lateinit var micGainBar: SeekBar
+    private lateinit var micGainValue: TextView
 
     //Initialize states
     private var stateScrollingText = false
@@ -56,6 +58,7 @@ class CommandFragment : Fragment(){
     private var stateSoundControl = false
 
     private var brightness = 255
+    private var micGain = 2
 
     //UDP Client
     private lateinit var client: UdpClient
@@ -113,6 +116,24 @@ class CommandFragment : Fragment(){
                 brightness = i
                 val brightnessPercentage = (i/2.55).toInt()
                 brightnessValue.text = "$brightnessPercentage %"
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                //current value: seekBar.progress
+            }
+        })
+        micGainValue = root.findViewById(R.id.micGainValue)
+        micGainBar = root.findViewById(R.id.micGainBar)
+        micGainBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
+                // Display the current progress of SeekBar
+                micGain = i
+                micGainValue.text = "$micGain"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -268,7 +289,7 @@ class CommandFragment : Fragment(){
                     stateSoundControl = true
                     buttonSoundControl.text = getString(R.string.button_sound_control_cancel)
                     //Send UDP message
-                    client.Message = "8:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.Message = "8:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + micGain.toString()
                     client.sendUdp()
                 }
                 true -> {
