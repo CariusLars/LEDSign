@@ -43,6 +43,7 @@ class CommandFragment : Fragment(){
     private lateinit var buttonRainbow: Button
     private lateinit var buttonStaticColor: Button
     private lateinit var buttonReset: Button
+    private lateinit var buttonSoundControl: Button
 
     //Initialize states
     private var stateScrollingText = false
@@ -52,6 +53,7 @@ class CommandFragment : Fragment(){
     private var stateColorStrobo = false
     private var stateRainbow = false
     private var stateStaticColor = false
+    private var stateSoundControl = false
 
     private var brightness = 255
 
@@ -252,6 +254,26 @@ class CommandFragment : Fragment(){
                 true -> {
                     stateRainbow = false
                     buttonRainbow.text = getString(R.string.button_rainbow)
+                    //Send UDP message
+                    client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
+                }
+            }
+        }
+
+        buttonSoundControl = root.findViewById(R.id.soundControlButton)
+        buttonSoundControl.setOnClickListener{ _ ->
+            when (stateSoundControl){
+                false -> {
+                    stateSoundControl = true
+                    buttonSoundControl.text = getString(R.string.button_sound_control_cancel)
+                    //Send UDP message
+                    client.Message = "8:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
+                    client.sendUdp()
+                }
+                true -> {
+                    stateSoundControl = false
+                    buttonSoundControl.text = getString(R.string.button_sound_control)
                     //Send UDP message
                     client.Message = "0:" + Color.red(colorHandler!!.getColor()).toString() + ":" + Color.green(colorHandler!!.getColor()).toString() + ":" + Color.blue(colorHandler!!.getColor()).toString() + ":" + brightness.toString() + ":" + ""
                     client.sendUdp()

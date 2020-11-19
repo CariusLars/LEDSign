@@ -171,6 +171,12 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
         <Button
+            android:id="@+id/soundControlButton"
+            android:text="@string/button_sound_control"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <Button
             android:id="@+id/staticColorButton"
             android:text="@string/button_static_color"
             android:layout_width="match_parent"
